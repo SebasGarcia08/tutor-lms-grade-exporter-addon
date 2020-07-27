@@ -1,0 +1,19 @@
+{
+    "name": "sebastian/tutor-grades-exporter",
+    "description": "WP plugin for exporting grades with Tutor LMS plugin",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Sebastian García Acosta",
+            "email": "segaracos@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Inc\\": "./inc" 
+        }
+    }
+}
