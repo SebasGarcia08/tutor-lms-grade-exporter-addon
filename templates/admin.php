@@ -3,11 +3,18 @@
 </div>
 
 <h1>Exportador de notas</h1>
+
 <div class="box">
     <label for="cars">Escoge un curso:</label>
-    <select name="course_names" id="course_names" onchange=hello()>
+    <select name="course_names" id="course_names" onchange=hello(this)>
         <option value="Ninguno" default>Ninguno</option>
     </select>
+
+    <label for="cars">Escoge un quiz:</label>
+    <select name="quizzes_names" id="quizzes_names">
+        <option value="Ninguno" default>Ninguno</option>
+    </select>
+
 </div>
 <?php
     global $wpdb;
@@ -24,11 +31,19 @@
 
     //  First, get the courses names
     $courses_query = "SELECT post_title, ID FROM {$wpdb->posts} WHERE {$wpdb->posts}.ID IN({$in_query_pre})";
-    $course_list = $wpdb->get_results($courses_query);
+    $course_list = $wpdb->get_results($courses_query);    
+    $quizzes_list = $wpdb -> get_results(
+        "SELECT DISTINCT p.post_title 
+        FROM {$wpdb->prefix}tutor_quiz_attempts AS qa 
+        INNER JOIN {$wpdb->posts} AS p 
+        ON qa.quiz_id = p.ID 
+        WHERE qa.course_id = $course_id"
+    );
 ?> 
 
 <script>
     var courses =  <?php echo json_encode($course_list); ?>;
+    
     var coursesPublishedByUser = document.getElementById("course_names");
     // Display the array elements 
     for(let i = 0; i < courses.length; i++){ 
@@ -39,8 +54,4 @@
         option.innerHTML = courseName;
         coursesPublishedByUser.appendChild(option);
     } 
-
-    function hello(){
-        
-    }
 </script>
